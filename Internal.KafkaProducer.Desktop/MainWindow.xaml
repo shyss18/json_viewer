@@ -1,0 +1,58 @@
+﻿<Window x:Class="Internal.KafkaProducer.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Internal.KafkaProducer.Desktop"
+        xmlns:viewModels="clr-namespace:Internal.KafkaProducer.Desktop.ViewModels"
+        xmlns:jsonTree="clr-namespace:Internal.KafkaProducer.Desktop.ViewModels.JsonTree"
+        xmlns:main="clr-namespace:Internal.KafkaProducer.Desktop.ViewModels.Main"
+        d:DataContext="{d:DesignInstance main:MainViewModel}"
+        mc:Ignorable="d"
+        Title="Kafka Producer" Height="800" Width="1000">
+    <Grid Margin="20, 20, 20, 0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TreeView Margin="5" Grid.Column="0" ItemsSource="{Binding TreeObject.Children}">
+            <!-- <TreeView.Resources> -->
+            <!--     <HierarchicalDataTemplate DataType="{x:Type jsonTree:TreeNodeViewModel}"> -->
+            <!--         <TextBlock Text="{Binding Name}" /> -->
+            <!--     </HierarchicalDataTemplate> -->
+            <!--     <DataTemplate DataType="{x:Type jsonTree:TreeNodeViewModel}"> -->
+            <!--         <TextBlock Text="{Binding Value}" /> -->
+            <!--     </DataTemplate> -->
+            <!--     <Style TargetType="TreeViewItem"> -->
+            <!--         <Setter Property="IsExpanded" Value="True" /> -->
+            <!--     </Style> -->
+            <!-- </TreeView.Resources> -->
+        </TreeView>
+        <StackPanel Grid.Column="1">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Topic name" />
+                <TextBox Padding="2"
+                         Text="{Binding KafkaConfigurationViewModel.TopicName, UpdateSourceTrigger= PropertyChanged}" />
+                <TextBlock Text="Kafka location" />
+                <TextBox Padding="2"
+                         Text="{Binding KafkaConfigurationViewModel.KafkaLocation, UpdateSourceTrigger= PropertyChanged}" />
+                <TextBlock Text="Kafka server" />
+                <TextBox Padding="2"
+                         Text="{Binding KafkaConfigurationViewModel.KafkaServer, UpdateSourceTrigger= PropertyChanged}" />
+                <Button Margin="0, 20,0,0" Padding="5" Command="{Binding ConfigureKafkaProducer}">
+                    <TextBlock Text="Configure kafka producer" />
+                </Button>
+            </StackPanel>
+            <StackPanel Margin="0, 20, 0, 0">
+                <Button Content="Load topic contract" Padding="5" Margin="0, 50, 0, 0"
+                        Command="{Binding LoadTopicContract}" />
+                <TextBlock Text="Section name" />
+                <TextBox Padding="2" Text="{Binding SelectedNodeViewModel.Name}" IsEnabled="False" />
+                <TextBlock Text="Section value" />
+                <TextBox Padding="2" Text="{Binding SelectedNodeViewModel.Value, UpdateSourceTrigger= PropertyChanged}" />
+                <Button Margin="0, 20, 0,0" Padding="5" Content="Push message" Command="{Binding PushMessage}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
