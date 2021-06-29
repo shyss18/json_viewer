@@ -5,7 +5,7 @@ namespace Internal.KafkaProducer.Infrastructure.Services
 {
     internal class FileService : IFileService
     {
-        public string PeekFile()
+        public string PeekFilePath()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)

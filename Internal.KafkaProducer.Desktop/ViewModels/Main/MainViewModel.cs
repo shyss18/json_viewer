@@ -3,35 +3,25 @@ using Internal.KafkaProducer.Core.Contracts.Services;
 using Internal.KafkaProducer.Desktop.Commands;
 using Internal.KafkaProducer.Desktop.ViewModels.JsonTree;
 using Internal.KafkaProducer.Desktop.ViewModels.Kafka;
+using Internal.KafkaProducer.Domain;
 
 namespace Internal.KafkaProducer.Desktop.ViewModels.Main
 {
     public class MainViewModel : BaseViewModel
     {
-        private readonly IJsonParserService _jsonParserService;
+        private readonly IJsonLoader _jsonLoader;
         private readonly IFileService _fileService;
+        private readonly IKafkaService _kafkaService;
 
-        private TreeObjectViewModel _treeObject;
+        private JsonObjectViewModel _jsonObject;
 
-        public TreeObjectViewModel TreeObject
+        public JsonObjectViewModel JsonObject
         {
-            get => _treeObject;
+            get => _jsonObject;
             set
             {
-                _treeObject = value;
-                OnPropertyChanged(nameof(TreeObject));
-            }
-        }
-
-        private TreeNodeViewModel _selectedNodeViewModel;
-
-        public TreeNodeViewModel SelectedNodeViewModel
-        {
-            get => _selectedNodeViewModel;
-            set
-            {
-                _selectedNodeViewModel = value;
-                OnPropertyChanged(nameof(SelectedNodeViewModel));
+                _jsonObject = value;
+                OnPropertyChanged(nameof(JsonObject));
             }
         }
 
@@ -48,26 +38,49 @@ namespace Internal.KafkaProducer.Desktop.ViewModels.Main
         }
 
         public MainViewModel(
-            IJsonParserService jsonParserService,
-            IFileService fileService)
+            IJsonLoader jsonLoader,
+            IFileService fileService,
+            IKafkaService kafkaService)
         {
             _fileService = fileService;
-            _jsonParserService = jsonParserService;
+            _kafkaService = kafkaService;
+            _jsonLoader = jsonLoader;
+
+            SetupDefault();
         }
 
-        public ICommand ConfigureKafkaProducer => new RelayCommand(_ => { });
+        private void SetupDefault()
+        {
+            JsonObject = new JsonObjectViewModel();
+            KafkaConfigurationViewModel = new KafkaConfigurationViewModel
+            {
+                TopicName = "rslon.asset.fct.registrations",
+                KafkaServers = "localhost:9092",
+            };
+        }
 
         public ICommand LoadTopicContract => new RelayCommand(async _ =>
         {
-            string filePath = _fileService.PeekFile();
+            string filePath = _fileService.PeekFilePath();
             if (string.IsNullOrEmpty(filePath))
             {
                 //TODO: Throw exception
             }
 
-            var treeObject = await _jsonParserService.ParseJsonAsync(filePath);
+            var treeObject = await _jsonLoader.LoadAsync(filePath);
+            JsonObject = new JsonObjectViewModel
+            {
+                Json = treeObject.Json
+            };
         });
 
-        public ICommand PushMessage =>  new RelayCommand(_ => { });
+        public ICommand PushMessage => new RelayCommand(async _ =>
+        {
+            await _kafkaService.ProduceAsync(JsonObject.Json.TrimEnd().TrimStart(), new KafkaConfiguration
+            {
+                KafkaServer = KafkaConfigurationViewModel.KafkaServers,
+                TopicName = KafkaConfigurationViewModel.TopicName
+            });
+        });
     }
 }

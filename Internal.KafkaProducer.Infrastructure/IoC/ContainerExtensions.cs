@@ -8,8 +8,9 @@ namespace Internal.KafkaProducer.Infrastructure.IoC
     {
         public static IKernel RegistryInfrastructure(this IKernel kernel)
         {
-            kernel.Bind<IJsonParserService>().To<JsonParserService>().InTransientScope();
+            kernel.Bind<IJsonLoader>().To<JsonLoader>().InTransientScope();
             kernel.Bind<IFileService>().To<FileService>().InTransientScope();
+            kernel.Bind<IKafkaService>().To<KafkaService>().InTransientScope();
 
             return kernel;
         }

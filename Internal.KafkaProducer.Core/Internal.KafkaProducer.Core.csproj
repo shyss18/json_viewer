@@ -43,7 +43,8 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Contracts\Services\IFileService.cs" />
-        <Compile Include="Contracts\Services\IJsonParserService.cs" />
+        <Compile Include="Contracts\Services\IJsonLoader.cs" />
+        <Compile Include="Contracts\Services\IKafkaService.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>

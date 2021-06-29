@@ -16,41 +16,21 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TreeView Margin="5" Grid.Column="0" ItemsSource="{Binding TreeObject.Children}">
-            <!-- <TreeView.Resources> -->
-            <!--     <HierarchicalDataTemplate DataType="{x:Type jsonTree:TreeNodeViewModel}"> -->
-            <!--         <TextBlock Text="{Binding Name}" /> -->
-            <!--     </HierarchicalDataTemplate> -->
-            <!--     <DataTemplate DataType="{x:Type jsonTree:TreeNodeViewModel}"> -->
-            <!--         <TextBlock Text="{Binding Value}" /> -->
-            <!--     </DataTemplate> -->
-            <!--     <Style TargetType="TreeViewItem"> -->
-            <!--         <Setter Property="IsExpanded" Value="True" /> -->
-            <!--     </Style> -->
-            <!-- </TreeView.Resources> -->
-        </TreeView>
+        <TextBox Margin="5" Grid.Column="0" Text="{Binding JsonObject.Json, Mode=TwoWay}" TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Visible" />
         <StackPanel Grid.Column="1">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Topic name" />
                 <TextBox Padding="2"
                          Text="{Binding KafkaConfigurationViewModel.TopicName, UpdateSourceTrigger= PropertyChanged}" />
-                <TextBlock Text="Kafka location" />
+                <TextBlock Text="Kafka servers" />
                 <TextBox Padding="2"
-                         Text="{Binding KafkaConfigurationViewModel.KafkaLocation, UpdateSourceTrigger= PropertyChanged}" />
-                <TextBlock Text="Kafka server" />
-                <TextBox Padding="2"
-                         Text="{Binding KafkaConfigurationViewModel.KafkaServer, UpdateSourceTrigger= PropertyChanged}" />
-                <Button Margin="0, 20,0,0" Padding="5" Command="{Binding ConfigureKafkaProducer}">
-                    <TextBlock Text="Configure kafka producer" />
-                </Button>
+                         Text="{Binding KafkaConfigurationViewModel.KafkaServers, UpdateSourceTrigger= PropertyChanged}" />
             </StackPanel>
             <StackPanel Margin="0, 20, 0, 0">
                 <Button Content="Load topic contract" Padding="5" Margin="0, 50, 0, 0"
                         Command="{Binding LoadTopicContract}" />
-                <TextBlock Text="Section name" />
-                <TextBox Padding="2" Text="{Binding SelectedNodeViewModel.Name}" IsEnabled="False" />
-                <TextBlock Text="Section value" />
-                <TextBox Padding="2" Text="{Binding SelectedNodeViewModel.Value, UpdateSourceTrigger= PropertyChanged}" />
                 <Button Margin="0, 20, 0,0" Padding="5" Content="Push message" Command="{Binding PushMessage}" />
             </StackPanel>
         </StackPanel>

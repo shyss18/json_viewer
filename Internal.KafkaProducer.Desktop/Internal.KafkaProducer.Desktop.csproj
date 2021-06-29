@@ -55,12 +55,10 @@
             <SubType>Designer</SubType>
         </ApplicationDefinition>
         <Compile Include="Commands\RelayCommand.cs" />
-        <Compile Include="Infrastructure\JsonParserService.cs" />
         <Compile Include="IoC\ContainerExtensions.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="ViewModels\BaseViewModel.cs" />
-        <Compile Include="ViewModels\JsonTree\TreeNodeViewModel.cs" />
-        <Compile Include="ViewModels\JsonTree\TreeObjectViewModel.cs" />
+        <Compile Include="ViewModels\JsonTree\JsonObjectViewModel.cs" />
         <Compile Include="ViewModels\Kafka\KafkaConfigurationViewModel.cs" />
         <Compile Include="ViewModels\Main\MainViewModel.cs" />
         <Page Include="MainWindow.xaml">

@@ -2,18 +2,6 @@
 {
     public class KafkaConfigurationViewModel : BaseViewModel
     {
-        private string _kafkaLocation;
-
-        public string KafkaLocation
-        {
-            get => _kafkaLocation;
-            set
-            {
-                _kafkaLocation = value;
-                OnPropertyChanged(nameof(KafkaLocation));
-            }
-        }
-
         private string _topicName;
 
         public string TopicName
@@ -26,15 +14,15 @@
             }
         }
 
-        private string _kafkaServer;
+        private string _kafkaServers;
 
-        public string KafkaServer
+        public string KafkaServers
         {
-            get => _kafkaServer;
+            get => _kafkaServers;
             set
             {
-                _kafkaServer = value;
-                OnPropertyChanged(nameof(KafkaServer));
+                _kafkaServers = value;
+                OnPropertyChanged(nameof(KafkaServers));
             }
         }
     }
